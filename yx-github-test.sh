@@ -52,6 +52,13 @@ EOF
 
 
 
+################################
+# step 1. 验证主机状态 UP
+# step 2. 验证DNS 查询IP
+# step 3. 验证端口
+# step 4. 验证 web 访问
+# step 5. 输出明确错误原因
+###############################
 IFS_STORAGE="${IFS}"
 IFS=$'\n'
 for line in $(github_host_list); do
