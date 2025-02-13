@@ -49,37 +49,32 @@ function github_host_list()
 EOF
 }
 
-#function github_host_list()
-#{
-# cat <<EOF
-#151.101.77.194              github.global.ssl.fastly.net
-#EOF
-#}
+
 
 
 IFS_STORAGE="${IFS}"
 IFS=$'\n'
 for line in $(github_host_list); do
-  ip=$(echo "${line}" | awk '{print $1}')
   host=$(echo "${line}" | awk '{print $2}')
   
-  printf "%-60s" "${host} ..."
+  printf "%-60s" "${host} $(tput setaf 3)...$(tput sgr0)"
   if err_msg=$(yx_test_host --host "${host}" --no-ping --proto https 2>&1 >/dev/null); then
     echo -ne "\033[1G\033[K"
-    printf "%-60s %s\n" ${host} ":OK"
+    printf "%-60s %s\n" ${host} ":$(tput setaf 2)Ok$(tput sgr0)"
   else
     
-    # remove all '\n' with a white space but escape the last one.
+    # replace all '\n' with a white space but escape the last one.
     err_msg=$(echo -e "${err_msg}" | tr '\n' ' ' | sed '$s/ $/\n/' )
     
     echo -ne "\033[1G\033[K"
     if [ -n "${err_msg}" ]; then
-      printf "%-60s %s (%s)\n" ${host} ":Failed" "${err_msg}"
+      printf "%-60s %s (%s)\n" ${host} ":$(tput setaf 5)Failed$(tput sgr0)" "${err_msg}"
     else
-      printf "%-60s %s\n" ${host} ":Failed"
+      printf "%-60s %s\n" ${host} ":$(tput setaf 5)Failed$(tput sgr0)"
     fi
   fi
   
 done
 IFS="${IFS_STORAGE}"
+
 
