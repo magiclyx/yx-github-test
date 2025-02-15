@@ -1,10 +1,13 @@
 #!/usr/bin/env bash
 
 
-source yxlibinit "/Users/emanon/Desktop/repo/yxlib/yxlib/yxlib/bin"
+source yxlibinit 
 source "${YXLIB_BIN}/yxnet" 
 
 
+################################################################
+# IP 地址并没有用, 这里保留这个格式，是为了方便替换host
+################################################################
 function github_host_list()
 {
   cat <<EOF
