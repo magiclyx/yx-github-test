@@ -1,5 +1,11 @@
 #!/usr/bin/env bash
 
+CMD=$(basename $0)
+if ! which yxlibinit > /dev/null; then
+  echo "$(tput setaf 1)Error: yxshlib not found.$(tput sgr0)"
+  echo "$(tput setaf 1)${CMD} is depend on yxshlib, But there is no installed YXSHLib script library locally.$(tput sgr0)"
+  exit 1
+fi
 
 source yxlibinit 
 source "${YXLIB_BIN}/yxnet" 
@@ -51,7 +57,6 @@ function github_host_list()
 185.199.110.133             objects.githubusercontent.com
 EOF
 }
-
 
 
 
