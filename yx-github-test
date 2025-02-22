@@ -67,11 +67,15 @@ EOF
 # step 4. 验证 web 访问
 # step 5. 输出明确错误原因
 ###############################
+tput civis
+trap "tput cnorm; exit 1" INT
+trap "tput cnorm" EXIT TERM
 IFS_STORAGE="${IFS}"
 IFS=$'\n'
 for line in $(github_host_list); do
   host=$(echo "${line}" | awk '{print $2}')
   
+  tput civis
   printf "%-60s" "${host} $(tput setaf 3)...$(tput sgr0)"
   if err_msg=$(yx_test_host --host "${host}" --no-ping --proto https 2>&1 >/dev/null); then
     echo -ne "\033[1G\033[K"
@@ -88,8 +92,8 @@ for line in $(github_host_list); do
       printf "%-60s %s\n" ${host} ":$(tput setaf 5)Failed$(tput sgr0)"
     fi
   fi
-  
 done
 IFS="${IFS_STORAGE}"
+tput cnorm
 
 
